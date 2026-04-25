@@ -91,7 +91,7 @@ result = crew.kickoff()
 
 ### Prerequisites
 - Python 3.8+
-- OpenAI API key (get from https://platform.openai.com/api-keys)
+- Groq API key (get from https://console.groq.com/keys)
 - `pip` package manager
 
 ### Quick Setup
@@ -101,9 +101,9 @@ result = crew.kickoff()
 # Copy template
 cp .env.example .env
 
-# Add your OpenAI API key
+# Add your Groq API key
 # Edit .env and add:
-OPENAI_API_KEY=sk-your-api-key-here
+GROQ_API_KEY=sk-your-api-key-here
 ```
 
 **2. Install Dependencies:**

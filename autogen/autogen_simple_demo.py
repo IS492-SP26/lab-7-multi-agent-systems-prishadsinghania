@@ -56,20 +56,20 @@ class GroupChatInterviewPlatform:
         # Research Agent - starts the conversation with market analysis
         self.research_agent = autogen.AssistantAgent(
             name="ResearchAgent",
-            system_message="""You are a market research analyst specializing in AI-powered recruitment technology.
+            system_message="""You are a market research analyst specializing in AI-powered employee onboarding tools.
 Your role in this group discussion is to START the conversation by providing competitive landscape analysis.
 
 Your responsibilities:
-- Analyze 3-4 major competitors in AI interview platforms (HireVue, Pymetrics, Codility, Interviewing.io)
+- Analyze 3-4 major competitors in AI onboarding and employee experience platforms (Deel, Rippling, BambooHR, Gusto)
 - Summarize their key features, strengths, and weaknesses
-- Identify current market trends in AI-powered recruiting
-- Note unmet market needs and gaps
+- Identify current market trends in AI-driven onboarding, training, and new-hire experience
+- Note unmet market needs and gaps for onboarding automation and employee enablement
 
 When you present your findings, be specific with competitor names, features, and data points.
 After presenting your research, invite the AnalysisAgent to identify opportunities based on your findings.
 Keep your response focused and under 400 words.""",
             llm_config=self.llm_config,
-            description="A market research analyst who provides competitive landscape analysis and identifies market gaps in AI interview platforms.",
+            description="A market research analyst who provides competitive landscape analysis and identifies market gaps in AI-powered employee onboarding tools.",
         )
 
         # Analysis Agent - builds on research to identify opportunities
@@ -104,10 +104,18 @@ Your responsibilities:
 - Highlight competitive differentiation
 
 Reference specific opportunities from the AnalysisAgent and market gaps from the ResearchAgent.
-After presenting your blueprint, invite the ReviewerAgent to review and provide recommendations.
+After presenting your blueprint, invite the CostAnalyst to estimate costs and then invite the ReviewerAgent to provide recommendations.
 Keep your response focused and under 400 words.""",
             llm_config=self.llm_config,
             description="A product designer who creates feature blueprints and user journeys based on identified market opportunities.",
+        )
+
+        # Cost Analyst Agent - estimates costs and ROI for the proposed feature blueprint
+        self.cost_agent = autogen.AssistantAgent(
+            name="CostAnalyst",
+            system_message="""You are a financial analyst. After the BlueprintAgent presents features, estimate development costs and timeline for each feature. Provide a cost-benefit ranking and identify which features are highest priority from an ROI perspective. After your analysis, invite the ReviewerAgent to provide final recommendations. Keep your response under 400 words.""",
+            llm_config=self.llm_config,
+            description="A financial analyst who estimates development costs and ROI for proposed features.",
         )
 
         # Reviewer Agent - reviews and concludes with strategic recommendations
@@ -136,10 +144,11 @@ After your review, conclude the discussion by ending your message with the word 
                 self.research_agent,
                 self.analysis_agent,
                 self.blueprint_agent,
+                self.cost_agent,
                 self.reviewer_agent,
             ],
             messages=[],
-            max_round=8,
+            max_round=10,
             speaker_selection_method="auto",
             allow_repeat_speaker=False,
             send_introductions=True,
