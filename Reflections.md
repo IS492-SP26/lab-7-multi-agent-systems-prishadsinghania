@@ -1,3 +1,10 @@
+ # 🤖 Multi-Agent Systems Lab: Reflections
+
+ ## 📚 Overview
+ This document captures reflection answers comparing agent behavior and communication patterns across **AutoGen** and **CrewAI** for Lab 7.
+
+ ---
+
 ## Behavior Across Agents
 
 One agent’s changed behavior rippled through the system because later agents used the earlier agent’s output as context. In AutoGen, when the first research direction changed, the later responses also shifted: the analysis moved toward personalization, bias mitigation, HR integration, and AR/VR instead of the earlier focus on industry modules, soft skills, VR, and blockchain. This shows that downstream agents adapt to the information produced before them, even when their own prompts are not directly changed.  
@@ -23,3 +30,13 @@ Yes, but only partially.
 The BudgetAgent did account for some LocalExpert-style tips because the final budget includes local practical advice: using Flybus instead of taxis, public transportation, walking/biking, preparing meals, packing layers, and considering a Reykjavik City Card. These are not just raw cost totals; they reflect local travel/safety/cost-saving context.  
 
 However, it did not deeply incorporate local customs or safety details into the budget. For example, it does not explicitly budget for winter safety needs, weather-related tour flexibility, or local etiquette/customs. So the LocalExpert influenced the budget, but the connection could be stronger.
+
+## Exercise 4: Custom Problem (Marketing Campaign)
+
+I chose the **marketing campaign** domain and ran **both frameworks** on the same problem: launching NoteFlow AI in 4 weeks.
+
+For AutoGen, I used a GroupChat workflow with role-specific agents (`AudienceAgent`, `ChannelAgent`, `BudgetAgent`, `ExecutionAgent`) and a manager-directed kickoff prompt. The conversation flowed as intended: audience segmentation first, then channel strategy, then budget scenarios, then final execution plan. The output included a complete 4-week plan with milestones, KPI targets, ownership, risks/mitigations, and a total budget of **$30,000**.
+
+For CrewAI, I used a sequential task workflow with equivalent marketing roles and task dependencies. The output was also a complete 4-week plan, but it was more structured as an execution report, with explicit objective blocks per week, category split percentages, and scenario totals (base budget **$13,530**, best-case **$16,255**, constrained **$11,455**).
+
+For this domain, **CrewAI produced the more useful result overall** because the final plan was more operationally structured and easier to use directly for campaign execution (clear objective-by-week formatting and cleaner budget accounting). AutoGen was still valuable for showing collaborative reasoning and handoff quality, but CrewAI gave a tighter deliverable for implementation.
